@@ -7,7 +7,6 @@ async function validateToken(token){
         const filteredToken = await filterToken(token);
         try{
             const result = await postsRepository.searchToken(filteredToken);
-            console.log(result.rows.length);
             if(result.rows.length != 0){
                 isTokenValid = true;
                 return isTokenValid;
