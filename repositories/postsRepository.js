@@ -2,6 +2,10 @@ import connection from "./../dbStrategy/postgres.js";
 
 //token = 5e23c49f-fd86-4921-a338-dc90a235b05b
 
+async function searchToken(token){
+    return connection.query('SELECT * FROM sessions WHERE token = $1',[token]);
+}
+
 async function createPost(postData){
     const { userId, link, text } = postData
     try{
@@ -26,15 +30,13 @@ async function validateToken(token){
     }
 }
 
-async function searchToken(token){
-    return connection.query('SELECT * FROM sessions WHERE token = $1',[token]);
-}
+
 
 
 const postsRepository = {
+    searchToken,
     createPost,
-    validateToken,
-    searchToken
+    validateToken
 }
 
 export default postsRepository;

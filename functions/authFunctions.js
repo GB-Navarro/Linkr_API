@@ -1,16 +1,40 @@
-async function filterToken(token,res){
+function validateTokenFormat(token){
+    let isTokenValid;
     if(token != undefined){
-        const tokenType = token.split(" ")[0].toString();
-        const filteredToken = token.split(" ")[1].toString();
-        return filteredToken;
+        const tokenType = checkTokenType(token);
+        if(tokenType === 'Bearer'){
+            isTokenValid = true;
+            const filteredToken = filterToken(token);
+            return filteredToken;
+        }else{
+            isTokenValid = false;
+            return isTokenValid;
+        }
     }else{
-        res.sendStatus(422);
+        isTokenValid = false;
+        return isTokenValid;
     }
-    
+   
 }
 
+function checkTokenType(token){
+    const tokenType = token.split(" ")[0].toString();
+    if(tokenType === 'Bearer'){
+        return 'Bearer';
+    }else{
+        return 'Other';
+    }
+}
+
+function filterToken(token){
+    const filteredToken = token.split(" ")[1].toString();
+    return filteredToken;
+}
+
+
+
 const authFunctions = {
-    filterToken
+    validateTokenFormat
 }
 
 export default authFunctions;
