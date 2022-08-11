@@ -26,9 +26,15 @@ async function validateToken(token){
     }
 }
 
+async function searchToken(token){
+    return connection.query('SELECT * FROM sessions WHERE token = $1',[token]);
+}
+
+
 const postsRepository = {
     createPost,
-    validateToken
+    validateToken,
+    searchToken
 }
 
 export default postsRepository;
