@@ -14,11 +14,15 @@ async function createPost(postData){
 }
 
 async function validateToken(token){
-    try{
-        const promisse = await connection.query('SELECT FROM sessions WHERE token = $1', [token]);
-        console.log(token);
-    }catch(error){
-        console.log(error);
+    if(token != undefined){
+        try{
+            const promisse = await connection.query('SELECT FROM sessions WHERE token = $1', [token]);
+            console.log(token);
+        }catch(error){
+            console.log(error);
+        }
+    }else{
+        
     }
 }
 
