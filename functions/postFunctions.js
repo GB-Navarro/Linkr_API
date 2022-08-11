@@ -40,8 +40,41 @@ function filterToken(token){
     return filteredToken;
 }
 
+async function createPost(link, text, token){
+    let isPostCreated;
+    try{
+        const userId = await getUserIdByToken(token);
+        const promisse = await postsRepository.createPost(userId, link, text);
+        if(promisse.rowCount === 1){
+            isPostCreated = true;
+            return isPostCreated;
+        }else{
+            isPostCreated = false;
+            return isPostCreated;
+        }
+    }catch(error){
+        console.log(error);
+        isPostCreated = false;
+        return isPostCreated;
+    }
+
+}
+
+async function getUserIdByToken(token){
+    try{
+        const result = await postsRepository.getUserByToken(token)
+        const userData = result.rows[0];
+        const { userId } = userData;
+        return userId;
+    }catch(error){
+        console.log(error);
+    }
+}
+
 const postFunctions = {
-    validateToken
+    validateToken,
+    filterToken,
+    createPost
 }
 
 export default postFunctions;
