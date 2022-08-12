@@ -45,3 +45,15 @@ export async function signIn(req, res) {
         res.status(500).send(error);
     }
 }
+
+export async function signOut(req, res) {
+    const { token } = res.locals.validToken;
+
+    try {
+        await authRepository.signOut(token);
+        res.status(200).send("User logged out successfully.");
+    }
+    catch (error) {
+        res.status(500).send(error);
+    }
+}
