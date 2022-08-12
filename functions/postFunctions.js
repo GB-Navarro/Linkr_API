@@ -166,6 +166,30 @@ async function removeLike(postId, userId){
     }  
 }
 
+async function validateLike(token, postId, userId){
+    let isValid;
+    const isTokenValid = await postFunctions.validateToken(token);
+    if(isTokenValid){
+        const filteredToken = postFunctions.filterToken(token);
+        const userIsTokenOwner = await postFunctions.checkTokenOwnership(filteredToken, userId);
+        if(userIsTokenOwner){
+            const postExists = await postFunctions.checkPostExistence(postId);
+            if(postExists){
+                isValid = true;
+                return isValid;
+            }else{
+                isValid = false;
+                return isValid;
+            }
+        }else{
+            isValid = false;
+            return isValid;
+        }
+    }else{
+        isValid = false;
+        return isValid;
+    }
+}
 const postFunctions = {
     validateToken,
     filterToken,
@@ -174,7 +198,8 @@ const postFunctions = {
     checkPostExistence,
     checkUserLikeExistence,
     addLike,
-    removeLike
+    removeLike,
+    validateLike
 }
 
 export default postFunctions;
