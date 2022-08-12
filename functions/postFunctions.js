@@ -70,10 +70,111 @@ async function getUserIdByToken(token){
     }
 }
 
+async function checkTokenOwnership(token, userId){
+    let userIsTokenOwner;
+    try{
+        const result = await postsRepository.searchToken(token);
+        if(result.rows.length != 0){
+            const { userId:tokenOwnerId } = result.rows[0];
+            if(userId === tokenOwnerId){
+                userIsTokenOwner = true;
+                return userIsTokenOwner;
+            }else{
+                userIsTokenOwner = false;
+                return userIsTokenOwner;
+            }
+        }else{
+            userIsTokenOwner = false;
+            return userIsTokenOwner;
+        }
+    }catch(error){
+        console.log(error);
+        userIsTokenOwner = false;
+        return userIsTokenOwner;
+    }
+}
+
+async function checkPostExistence(postId){
+    let postExists;
+    try{
+        const result = await postsRepository.checkPostExistence(postId);
+        if(result.rows.length != 0){
+            postExists = true;
+            return postExists;
+        }else{
+            postExists = false;
+            return postExists;
+        }
+    }catch(error){
+        console.log(error);
+        postExists = false;
+        return postExists;
+    }
+}
+
+async function checkUserLikeExistence(postId, userId){
+    let postAlreadyLikedByUser;
+    try{
+        const result = await postsRepository.checkUserLikeExistence(postId, userId);
+        if(result.rows.length != 0){
+            postAlreadyLikedByUser = true;
+            return postAlreadyLikedByUser;
+        }else{
+            postAlreadyLikedByUser = false;
+            return postAlreadyLikedByUser;
+        }
+    }catch(error){
+        console.log(error);
+        postAlreadyLikedByUser = false;
+        return postAlreadyLikedByUser;
+    }
+}
+
+async function addLike(postId, userId){
+    let likeWasAdded;
+    try{
+        const result = await postsRepository.addLike(postId, userId);
+        if(result.rowCount === 1){
+            likeWasAdded = true;
+            return likeWasAdded;
+        }else{
+            likeWasAdded = false;
+            return likeWasAdded;
+        }
+    }catch(error){
+        console.log(error);
+        likeWasAdded = false;
+        return likeWasAdded;
+    }
+}
+
+async function removeLike(postId, userId){
+    let likeWasRemoved;
+    try{
+        const result = await postsRepository.removeLike(postId, userId);
+        if(result.rowCount === 1){
+            likeWasRemoved = true;
+            return likeWasRemoved;
+        }else{
+            likeWasRemoved = false;
+            return likeWasRemoved;
+        }
+    }catch(error){
+        console.log(error);
+        likeWasRemoved = false;
+        return likeWasRemoved;
+    }  
+}
+
 const postFunctions = {
     validateToken,
     filterToken,
-    createPost
+    createPost,
+    checkTokenOwnership,
+    checkPostExistence,
+    checkUserLikeExistence,
+    addLike,
+    removeLike
 }
 
 export default postFunctions;
