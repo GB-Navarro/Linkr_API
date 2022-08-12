@@ -16,3 +16,7 @@ export async function publishPost(req,res){
         res.sendStatus(401)
     }
 }
+
+export async function addLike(req,res){
+    res.send("Hello World!");
+}
