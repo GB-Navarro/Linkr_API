@@ -60,3 +60,7 @@ export async function removeLike(req,res){
         res.sendStatus(400);
     }
 }
+
+export async function getPosts(req,res){
+    res.send("Hello World!");
+}
