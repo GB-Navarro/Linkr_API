@@ -17,7 +17,7 @@ async function signOut(token) {
 }
 
 export const authRepository = {
-	signUp,
+	  signUp,
     verifyExistingUser,
     signIn,
     signOut
