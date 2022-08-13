@@ -1,4 +1,5 @@
 import postsRepository from "../repositories/postsRepository.js"
+import urlMetadata from "url-metadata";
 
 async function validateToken(token){
     let isTokenValid;
@@ -190,6 +191,58 @@ async function validateLike(token, postId, userId){
         return isValid;
     }
 }
+
+export async function formatPosts(unformattedPosts){
+    const formatedPosts = [];
+    for(const unformattedPost of unformattedPosts){
+        const { id:postId, userId, link:url, text:userText, likesCount } = unformattedPost;
+        const { urlTitle, urlDescription, urlImage } = await postFunctions.getUrlMetadata(url);
+        const formatedPost = {
+            postId: postId,
+            userId: userId,
+            userText: userText,
+            url: url,
+            urlTitle: urlTitle,
+            urlDescription: urlDescription,
+            urlImage: urlImage,
+            likesCount: likesCount
+        }
+        formatedPosts.push(formatedPost);
+    }
+    return formatedPosts;
+}
+
+export async function getUrlMetadata(url){
+    //usar urls válidas
+    const response = await urlMetadata('https://medium.com/reactbrasil/http-response-status-code-6d5aadbad159');
+    const {title:urlTitle, description:urlDescription, image:urlImage} = response;
+    const metadata = {
+        urlTitle: urlTitle,
+        urlDescription: urlDescription,
+        urlImage: urlImage
+    }
+    return metadata;
+}
+
+/*
+export async function getUrlMetaData(unformattedPost){
+    const { id:postId, userId, link:url, text:userText, likesCount } = unformattedPost;
+    const response = await urlMetadata("https://medium.com/reactbrasil/http-response-status-code-6d5aadbad159");
+    const {title:urlTitle, description:urlDescription, image:urlImage} = response;
+    const formatedPost = {
+        postId: postId,
+        userId: userId,
+        userText: userText,
+        url: url,
+        urlTitle: urlTitle,
+        urlDescription: urlDescription,
+        urlImage: urlImage,
+        likesCount: likesCount
+    }
+    return formatedPost;
+}
+*/
+
 const postFunctions = {
     validateToken,
     filterToken,
@@ -199,7 +252,9 @@ const postFunctions = {
     checkUserLikeExistence,
     addLike,
     removeLike,
-    validateLike
+    validateLike,
+    formatPosts,
+    getUrlMetadata
 }
 
 export default postFunctions;

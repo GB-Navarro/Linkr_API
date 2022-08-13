@@ -1,4 +1,6 @@
 import postFunctions from "../functions/postFunctions.js";
+import urlMetadata from "url-metadata";
+import postsRepository from "../repositories/postsRepository.js";
 
 export async function publishPost(req,res){
     const { link, text } = req.body
@@ -62,5 +64,8 @@ export async function removeLike(req,res){
 }
 
 export async function getPosts(req,res){
-    res.send("Hello World!");
+    const response = await postsRepository.getPosts();
+    const unformattedPosts = response.rows;
+    const formatedPosts = await postFunctions.formatPosts(unformattedPosts);
+    res.send(formatedPosts);
 }

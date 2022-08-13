@@ -28,6 +28,10 @@ async function removeLike(postId, userId){
     return connection.query('DELETE FROM likes WHERE "postId" = $1 AND "userId" = $2',[postId, userId]);
 }
 
+async function getPosts(){
+    return connection.query('SELECT * FROM posts ORDER BY "createdAt" DESC LIMIT 20;');
+}
+
 const postsRepository = {
     searchToken,
     getUserByToken,
@@ -35,7 +39,8 @@ const postsRepository = {
     checkPostExistence,
     checkUserLikeExistence,
     addLike,
-    removeLike
+    removeLike,
+    getPosts
 }
 
 export default postsRepository;
