@@ -224,25 +224,6 @@ export async function getUrlMetadata(url){
     return metadata;
 }
 
-/*
-export async function getUrlMetaData(unformattedPost){
-    const { id:postId, userId, link:url, text:userText, likesCount } = unformattedPost;
-    const response = await urlMetadata("https://medium.com/reactbrasil/http-response-status-code-6d5aadbad159");
-    const {title:urlTitle, description:urlDescription, image:urlImage} = response;
-    const formatedPost = {
-        postId: postId,
-        userId: userId,
-        userText: userText,
-        url: url,
-        urlTitle: urlTitle,
-        urlDescription: urlDescription,
-        urlImage: urlImage,
-        likesCount: likesCount
-    }
-    return formatedPost;
-}
-*/
-
 const postFunctions = {
     validateToken,
     filterToken,
