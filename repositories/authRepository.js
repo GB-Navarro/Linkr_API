@@ -12,6 +12,7 @@ async function signIn(id, token) {
     return connection.query(`INSERT INTO sessions ("userId", token) VALUES ($1, $2)`, [id, token]);
 }
 
+
 export const authRepository = {
 	signUp,
     verifyExistingUser,
