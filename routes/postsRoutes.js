@@ -4,7 +4,8 @@ import {
   publishPost,
   addLike,
   removeLike,
-  editPost
+  editPost,
+  getPostsByUserId
 } from "./../controllers/postsController.js"
 import validatePostFormat from "./../middlewares/validatePostFormat.js";
 import validateLikeFormat from "../middlewares/validateLikeFormat.js";
@@ -17,5 +18,6 @@ postsRouter.post("/publish", verifyTokenExistence, validatePostFormat, publishPo
 postsRouter.post("/addlike", verifyTokenExistence, validateLikeFormat, addLike);
 postsRouter.post("/removelike", verifyTokenExistence, validateLikeFormat, removeLike);
 postsRouter.put("/posts/edit/:id", validateToken, validatePostEdit, editPost);
+postsRouter.get("/posts/:userId", getPostsByUserId);
 
 export default postsRouter;
