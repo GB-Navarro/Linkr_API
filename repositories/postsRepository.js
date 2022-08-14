@@ -29,8 +29,8 @@ async function removeLike(postId, userId){
 }
 
 async function getPosts(){
-    return connection.query('SELECT * FROM posts ORDER BY "createdAt" DESC LIMIT 20;');
-}
+    return connection.query('SELECT posts.id as "postId", "userId", users.username, text as "userText", link as url, "likesCount" FROM posts JOIN users ON posts."userId" = users.id ORDER BY posts."createdAt" DESC LIMIT 20;');
+}   
 
 const postsRepository = {
     searchToken,

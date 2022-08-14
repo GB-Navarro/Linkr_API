@@ -195,11 +195,12 @@ async function validateLike(token, postId, userId){
 export async function formatPosts(unformattedPosts){
     const formatedPosts = [];
     for(const unformattedPost of unformattedPosts){
-        const { id:postId, userId, link:url, text:userText, likesCount } = unformattedPost;
+        const { postId, userId, username, userText, url , likesCount } = unformattedPost;
         const { urlTitle, urlDescription, urlImage } = await postFunctions.getUrlMetadata(url);
         const formatedPost = {
             postId: postId,
             userId: userId,
+            username: username,
             userText: userText,
             url: url,
             urlTitle: urlTitle,

@@ -64,6 +64,7 @@ export async function removeLike(req,res){
 }
 
 export async function getPosts(req,res){
+    //validar o token
     const response = await postsRepository.getPosts();
     const unformattedPosts = response.rows;
     const formatedPosts = await postFunctions.formatPosts(unformattedPosts);
