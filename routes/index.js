@@ -10,4 +10,3 @@ router.use(postsRouter);
 router.use(hashTagRouter)
 
 export default router; 
-\n
