@@ -14,6 +14,7 @@ const postsRouter = express.Router();
 postsRouter.post("/publish", verifyTokenExistence, validatePostFormat, publishPost);
 postsRouter.post("/addlike", verifyTokenExistence, validateLikeFormat, addLike);
 postsRouter.post("/removelike", verifyTokenExistence, validateLikeFormat, removeLike);
-postsRouter.get("/timeline", verifyTokenExistence, getPosts);
+postsRouter.get("/posts", verifyTokenExistence, getPosts);
+postsRouter.delete("/post/:id", verifyTokenExistence);
 
 export default postsRouter;

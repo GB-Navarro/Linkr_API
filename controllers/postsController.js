@@ -64,9 +64,17 @@ export async function removeLike(req,res){
 }
 
 export async function getPosts(req,res){
-    //validar o token
-    const response = await postsRepository.getPosts();
-    const unformattedPosts = response.rows;
-    const formatedPosts = await postFunctions.formatPosts(unformattedPosts);
-    res.send(formatedPosts);
+    //tratar os erros (principalmente o erro de urls inválidas)
+    //se uma url for inválida, retorno um null ou undefined na posição dessa url e no front eu não renderizo isso (e excluo isso do banco de dados ?)
+    const unfilteredToken = req.headers.authorization;
+    const isTokenValid = await postFunctions.validateToken(unfilteredToken);
+    if(isTokenValid){
+        const response = await postsRepository.getPosts();
+        const unformattedPosts = response.rows;
+        const formatedPosts = await postFunctions.formatPosts(unformattedPosts);
+        res.send(formatedPosts);
+    }else{
+        res.sendStatus(401);
+    }
+    
 }
