@@ -1,5 +1,4 @@
 import postFunctions from "../functions/postFunctions.js";
-import urlMetadata from "url-metadata";
 import postsRepository from "../repositories/postsRepository.js";
 
 export async function publishPost(req, res) {
@@ -77,7 +76,23 @@ export async function getPosts(req,res){
         res.sendStatus(401);
     }
 }
-    
+
+export async function deletePost(req,res){
+    const unfilteredToken = req.headers.authorization;
+    const isTokenValid = await postFunctions.validateToken(unfilteredToken);
+    if(isTokenValid){
+        const {id:postId} = req.params;
+        const isPostDeleted = await postFunctions.deletePost(postId);
+        if(isPostDeleted){
+            res.sendStatus(200);
+        }else{
+            res.sendStatus(500);
+        }
+    }else{
+        res.sendStatus(401);
+    }
+}
+
 export async function editPost(req, res) {
     const id = req.params.id;
     const { text } = req.body;
@@ -101,6 +116,7 @@ export async function editPost(req, res) {
     catch (error) {
         res.status(500).send(error);
     }
+
 }
 
 export async function getPostsByUserId(req, res) {

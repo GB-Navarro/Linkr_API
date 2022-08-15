@@ -228,6 +228,24 @@ export async function getUrlMetadata(url){
     }
 }
 
+export async function deletePost(id){
+    let isPostDeleted;
+    try{
+        const response = await postsRepository.deletePost(id);
+        if(response.rowCount === 1){
+            isPostDeleted = true;
+            return isPostDeleted;
+        }else{
+            isPostDeleted = false;
+            return isPostDeleted;
+        }
+    }catch(error){
+        console.log(error);
+        isPostDeleted = false;
+        return isPostDeleted;
+    }
+}
+
 const postFunctions = {
     validateToken,
     filterToken,
@@ -239,7 +257,8 @@ const postFunctions = {
     removeLike,
     validateLike,
     formatPosts,
-    getUrlMetadata
+    getUrlMetadata,
+    deletePost
 }
 
 export default postFunctions;
