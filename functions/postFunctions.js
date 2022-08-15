@@ -1,4 +1,5 @@
 import postsRepository from "../repositories/postsRepository.js"
+import urlMetadata from "url-metadata";
 
 async function validateToken(token){
     let isTokenValid;
@@ -190,6 +191,43 @@ async function validateLike(token, postId, userId){
         return isValid;
     }
 }
+
+export async function formatPosts(unformattedPosts){
+    const formatedPosts = [];
+    for(const unformattedPost of unformattedPosts){
+        const { postId, userId, username, userText, url , likesCount } = unformattedPost;
+        const { urlTitle, urlDescription, urlImage } = await postFunctions.getUrlMetadata(url);
+        const formatedPost = {
+            postId: postId,
+            userId: userId,
+            username: username,
+            userText: userText,
+            url: url,
+            urlTitle: urlTitle,
+            urlDescription: urlDescription,
+            urlImage: urlImage,
+            likesCount: likesCount
+        }
+        formatedPosts.push(formatedPost);
+    }
+    return formatedPosts;
+}
+
+export async function getUrlMetadata(url){
+    try{
+        const response = await urlMetadata(url);
+        const {title:urlTitle, description:urlDescription, image:urlImage} = response;
+        const metadata = {
+            urlTitle: urlTitle,
+            urlDescription: urlDescription,
+            urlImage: urlImage
+        }
+        return metadata;
+    }catch(error){
+        console.log(error);
+    }
+}
+
 const postFunctions = {
     validateToken,
     filterToken,
@@ -199,7 +237,9 @@ const postFunctions = {
     checkUserLikeExistence,
     addLike,
     removeLike,
-    validateLike
+    validateLike,
+    formatPosts,
+    getUrlMetadata
 }
 
 export default postFunctions;

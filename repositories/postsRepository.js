@@ -45,6 +45,10 @@ async function getPostsByUserId(userId) {
     return connection.query(`SELECT * FROM posts WHERE "userId" = $1`, [userId]);
 }
 
+async function getPosts(){
+    return connection.query('SELECT posts.id as "postId", "userId", users.username, text as "userText", link as url, "likesCount" FROM posts JOIN users ON posts."userId" = users.id ORDER BY posts."createdAt" DESC LIMIT 20;');
+}   
+
 const postsRepository = {
     searchToken,
     getUserByToken,
@@ -53,6 +57,7 @@ const postsRepository = {
     checkUserLikeExistence,
     addLike,
     removeLike,
+    getPosts,
     verifyExistingPost,
     updatePost,
     verifyExistingUser,
