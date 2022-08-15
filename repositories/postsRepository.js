@@ -41,6 +41,10 @@ async function getPosts(){
     return connection.query('SELECT posts.id as "postId", "userId", users.username, text as "userText", link as url, "likesCount" FROM posts JOIN users ON posts."userId" = users.id ORDER BY posts."createdAt" DESC LIMIT 20;');
 }   
 
+async function deletePost(id){
+    return connection.query('DELETE FROM posts WHERE id = $1',[id]);
+}
+
 const postsRepository = {
     searchToken,
     getUserByToken,
@@ -50,6 +54,7 @@ const postsRepository = {
     addLike,
     removeLike,
     getPosts,
+    deletePost,
     verifyExistingPost,
     updatePost
 }
