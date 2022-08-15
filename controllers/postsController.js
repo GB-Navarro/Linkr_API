@@ -116,4 +116,31 @@ export async function editPost(req, res) {
     catch (error) {
         res.status(500).send(error);
     }
+
+}
+
+export async function getPostsByUserId(req, res) {
+    const { userId } = req.params;
+
+    try {
+        const { rows: verifyExistingUser } = await postsRepository.verifyExistingUser(userId);
+        if(verifyExistingUser.length === 0) {
+            res.status(404).send("User not found.");
+            return;
+        }
+
+        const { rows: getUserPosts }  = await postsRepository.getPostsByUserId(userId);
+
+        const formatedResponse = {
+            username: verifyExistingUser[0].username,
+            userPicture: verifyExistingUser[0].pictureUrl,
+            posts: getUserPosts
+        }
+
+        res.status(200).send(formatedResponse);
+    }
+    catch (error) {
+        res.status(500).send(error);
+    }
+
 }
