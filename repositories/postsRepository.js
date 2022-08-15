@@ -45,7 +45,6 @@ async function getPostsByUserId(userId) {
     return connection.query(`SELECT * FROM posts WHERE "userId" = $1`, [userId]);
 }
 
-
 const postsRepository = {
     searchToken,
     getUserByToken,

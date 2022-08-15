@@ -98,7 +98,14 @@ export async function getPostsByUserId(req, res) {
         }
 
         const { rows: getUserPosts }  = await postsRepository.getPostsByUserId(userId);
-        res.status(200).send(getUserPosts);
+
+        const formatedResponse = {
+            username: verifyExistingUser[0].username,
+            userPicture: verifyExistingUser[0].pictureUrl,
+            posts: getUserPosts
+        }
+
+        res.status(200).send(formatedResponse);
     }
     catch (error) {
         res.status(500).send(error);
