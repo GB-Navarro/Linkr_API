@@ -4,9 +4,9 @@ import {
   publishPost,
   addLike,
   removeLike,
-  getPosts
+  getPosts,
   editPost
-} from "./../controllers/postsController.js"
+} from "./../controllers/postsController.js";
 import validatePostFormat from "./../middlewares/validatePostFormat.js";
 import validateLikeFormat from "../middlewares/validateLikeFormat.js";
 import validateToken from "../middlewares/validateToken.js";

@@ -76,6 +76,7 @@ export async function getPosts(req,res){
     }else{
         res.sendStatus(401);
     }
+}
     
 export async function editPost(req, res) {
     const id = req.params.id;
